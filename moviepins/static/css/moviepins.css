@@ -1,0 +1,42 @@
+html, body{
+	height: 100%; 
+	margin: 0; 
+	padding: 0;
+	background-color: #fff;
+}
+
+#map-canvas { 
+	height: 100%; 
+	width: 100%;
+	margin: 0; 
+	padding: 0;
+}
+.navbar.navbar, .navbar-default.navbar{
+	background-color: #fff;
+	color: #333;
+	box-shadow: 0 2px 2px rgba(0,0,0,.2);
+	margin-bottom: 0px;
+	z-index: 10;
+}
+#searchBox{
+	position: absolute;
+	float: right;
+	top: 100px;
+	text-align: center;
+	left: 50%;
+	margin-left: -25%;
+	width: 50%;
+	padding: 5px;
+
+}
+#searchBox i{
+	font-size: 40px;
+	float: left;
+	width: 10%;
+
+}
+#searchBox input{
+	width: 90%;
+	font-size: 20px;
+	height: 40px;
+}
