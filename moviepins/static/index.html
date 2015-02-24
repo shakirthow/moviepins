@@ -72,23 +72,63 @@
 
 
 
+<div class="loader-wrapper">
+  <div class="loader"></div>
+</div>
+
 
 <div id="map-canvas"></div>
 <div id="searchBox" class="well well-lg">
+        
+                <i class="mdi-action-search"></i>
 
 
-            <i class="mdi-action-search"></i>
-                <input type="email" class="form-control" id="inputEmail">
+        
+
+    <input type="email" class="form-control" id="inputEmail">
+</div>
+
+
+
+<div id="filterBox" class="well well-lg">
+    <legend>Filters</legend>
+    <h4>Actors</h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"> Checkbox
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"> Checkbox
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"> Checkbox
+        </label>
+    </div>
+
+    <h4>Year</h4>
+        <div id="yearSlider" class="slider shor"></div>
 
 </div>
 
 
+
+
+
+<!-- <div class="container">
+    <div class="ring ping"></div> <a href="#"></a>
+
+</div> -->
 
         <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
         <script src="js/ripples.min.js"></script>
         <script src="js/material.min.js"></script>
+        <script src="js/jquery.nouislider.all.min.js"></script>
         <script src="js/moviepins.js"></script>
         <script>
 
