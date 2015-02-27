@@ -60,6 +60,8 @@
                         });
                 dlgtrigger.addEventListener('click', dlg.toggle.bind(dlg));
         }
+        
+        overLay()
 
         function initMaps() {
                 getCurrentPosition = function() {
@@ -111,12 +113,12 @@
                         google.maps.event.addListener(marker, 'click', function() {
                                 infowindow.open(map, marker);
                         });
-                        // google.maps.event.addListenerOnce(map, 'idle', function(){
-                        //         //loaded fully
-                        // });
+                        google.maps.event.addListenerOnce(map, 'idle', function(){
+                                //loaded fully
+
+                        });
                 }
                 getCurrentPosition()
         }
         initMaps()
-        overLay()
 })();

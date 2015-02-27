@@ -34,12 +34,12 @@
 }
 
 .dialog__content {
-	width: 50%;
+	/*width: 50%;*/
 	max-width: 560px;
 	min-width: 290px;
 	background: #fff;
-	padding: 20px 10px;
-	text-align: center;
+	/*padding: 20px;*/
+	/*text-align: center;*/
 	position: relative;
 	z-index: 5;
 	opacity: 0;
@@ -54,6 +54,28 @@
 	margin: 0;
 	font-weight: 400;
 	font-size: 2em;
-	padding: 0 0 2em;
-	margin: 0;
+	text-align: center;
+}
+.dialog-inner .row{
+	margin: 0px;
+}
+.trailer-frame{
+	float: left;
+}
+.movie-summary{
+	/*width: 450px;*/
+	padding: 20px ;
+	/*float: right;*/
+	max-height: 335px;
+	overflow-y:scroll; 
+}
+.movie-summary legend{
+	margin-bottom: 5px;
+}
+.dl-horizontal{
+	margin: 0px;
+}
+.movie-trailer{
+	/*max-width: 500px;*/
+	/*float: left;*/
 }
