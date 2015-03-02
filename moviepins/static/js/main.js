@@ -1,38 +1,55 @@
+
+    function getMoreDetails(){
+                menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+                classie.toggle( menuRight, 'details-slider-open' );
+        }
+
+
+
 (function() {
-        var bodyEl = document.body,
-                content = document.querySelector('.content-wrap'),
-                openbtn = document.getElementById('open-button'),
-                closebtn = document.getElementById('close-button'),
-                isOpen = false;
+        // var bodyEl = document.body,
+        //         content = document.querySelector('.content-wrap'),
+        //         openbtn = document.getElementById('open-button'),
+        //         closebtn = document.getElementById('close-button'),
+        //         isOpen = false;
 
-        function init() {
-                initEvents();
+        // function init() {
+        //         initEvents();
+        // }
+
+        // function initEvents() {
+        //         openbtn.addEventListener('click', toggleMenu);
+        //         if (closebtn) {
+        //                 closebtn.addEventListener('click', toggleMenu);
+        //         }
+        //         // close the menu element if the target it´s not the menu element or one of its descendants..
+        //         content.addEventListener('click', function(ev) {
+        //                 var target = ev.target;
+        //                 if (isOpen && target !== openbtn) {
+        //                         toggleMenu();
+        //                 }
+        //         });
+        // }
+
+        // function toggleMenu() {
+        //         if (isOpen) {
+        //                 classie.remove(bodyEl, 'show-menu');
+        //         } else {
+        //                 classie.add(bodyEl, 'show-menu');
+        //         }
+        //         isOpen = !isOpen;
+        // }
+        // init();
+
+        function detailsMenu(){
+                menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+                showRight.onclick = function() {
+                        classie.toggle( this, 'active' );
+                        classie.toggle( menuRight, 'details-slider-open' );
+                        disableOther( 'showRight' );
+                };
         }
-
-        function initEvents() {
-                openbtn.addEventListener('click', toggleMenu);
-                if (closebtn) {
-                        closebtn.addEventListener('click', toggleMenu);
-                }
-                // close the menu element if the target it´s not the menu element or one of its descendants..
-                content.addEventListener('click', function(ev) {
-                        var target = ev.target;
-                        if (isOpen && target !== openbtn) {
-                                toggleMenu();
-                        }
-                });
-        }
-
-        function toggleMenu() {
-                if (isOpen) {
-                        classie.remove(bodyEl, 'show-menu');
-                } else {
-                        classie.add(bodyEl, 'show-menu');
-                }
-                isOpen = !isOpen;
-        }
-        init();
-
+        detailsMenu()
         function overLay() {
                 var dlgtrigger = document.querySelector('#dlTrigg'),
                         somedialog = document.getElementById('somedialog'),
@@ -63,6 +80,14 @@
         
         overLay()
 
+
+        function getMoreDetails(){
+                menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+                classie.toggle( menuRight, 'details-slider-open' );
+        }
+
+
+
         function initMaps() {
                 getCurrentPosition = function() {
                         if (navigator.geolocation) {
@@ -74,14 +99,17 @@
                 setGoogleMaps = function(position) {
                         var myLatlng = new google.maps.LatLng(37.7577, -122.4376);
                         var mapOptions = {
+
+                                // styles: [{"featureType":"all","elementType":"all","stylers":[{"invert_lightness":true},{"saturation":10},{"lightness":30},{"gamma":0.5},{"hue":"#435158"}]}],
+
                                 panControlOptions: {
-                                        // position: google.maps.ControlPosition.TOP_RIGHT
+                                        position: google.maps.ControlPosition.TOP_RIGHT
                                 },
                                 mapTypeControl: false,
                                 zoomControl: true,
                                 zoomControlOptions: {
                                         style: google.maps.ZoomControlStyle.SMALL,
-                                        // position: google.maps.ControlPosition.TOP_RIGHT
+                                        position: google.maps.ControlPosition.TOP_RIGHT
                                 },
                                 center: myLatlng,
                                 // center: {lat:position.coords.latitude, lng: position.coords.longitude},
@@ -91,8 +119,7 @@
                         var contentString = '<div class="info-box">' + '<img src="images/walkingDead.jpg"><div class="details">' + ' <h3>Movie Title(2014)</h3>' +
                                 ' <p class="text-muted studio">Sony Entertainment.</p>' + ' <strong>Jorge coloney, Emma watson</strong>' +
                                 '  <p>Nullam quis risus eget <a href="javascript:void(0)">urna mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>' +
-                                '</div>' + '<a class="btn btn-default more-info"><i class="mdi-navigation-more-horiz"></i></a>' +
-                                '                                       <div class="button-wrap"><button data-dialog="somedialog" class="trigger">Open Dialog</button></div>'
+                                '<button  class="btn btn-default more-info" onclick="getMoreDetails()"><i class="fa fa-ellipsis-h"></i></button> </div>'+
                         '</div>';
                         var infowindow = new google.maps.InfoWindow({
                                 content: contentString,
