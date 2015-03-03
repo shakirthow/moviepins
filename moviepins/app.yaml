@@ -6,6 +6,11 @@ threadsafe: yes
 
 
 handlers:
+- url: /_ah/spi/.*
+  script: api_handler.APPLICATION
+
+
+
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
@@ -32,3 +37,5 @@ libraries:
   version: "2.5.2"
 - name: jinja2
   version: latest
+- name: endpoints
+  version: 1.0
