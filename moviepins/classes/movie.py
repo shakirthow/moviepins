@@ -15,13 +15,7 @@ class FindMovies(messages.Message):
 
 class GetMovies(messages.Message):
   title = messages.StringField(1)
-  locations = messages.StringField(2)
-  production_company = messages.StringField(3)
-  director = messages.StringField(4)
-  actor_1 = messages.StringField(5)
-  actor_2 = messages.StringField(6)
-  actor_3 = messages.StringField(7)
-  year = messages.IntegerField(8)
+  year = messages.IntegerField(2)
 
 class MovieDetails(messages.Message):
   title = messages.StringField(1)
@@ -74,21 +68,21 @@ class Movies(remote.Service):
     def details(self, request):
       params = {}
       params['q'] = request.title
-      params['page_limit'] = 2
       params_encoded = urllib.urlencode(params)
-     
-      resp, content = httplib2.Http().request('http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey='+TOMATO_KEY+'&'+params_encoded)
-      # pprint.pprint("******************************")
-      # pprint.pprint(resp.status)
-      if resp.status == 200:
+      r, content = httplib2.Http().request('http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey='+TOMATO_KEY+'&'+params_encoded)
+
+      if r.status == 200:
         con_obj = json.loads(content)
+        # pprint.pprint(con_obj)
         for movie in con_obj[u'movies']:
-          if movie[u'year'] == request.year:
+          print int(movie[u'year'])
+          if request.year == int(movie[u'year']):
             return  Response(resp = json.dumps(movie))
+      elif r.status == 403:
+        Response(resp = 'TOMATO_KEY has exceded free quota')
       else:
-        Response(resp = 'bad request')
-
-
+        Response(resp = 'Bad Request')
+      return Response(resp = 'Sorry, We details for this movie got lost... somewhere with those VHS disks')
 
 
     @endpoints.method(SearchMovies, Response,

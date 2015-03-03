@@ -1,100 +1,78 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+
+<html class="no-js" lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<title>Off-Canvas Menu Effects - Side Slide</title>
-	<meta name="description" content="Modern effects and styles for off-canvas navigation with CSS transitions and SVG animations using Snap.svg" />
-	<meta name="keywords" content="sidebar, off-canvas, menu, navigation, effect, inspiration, css transition, SVG, morphing, animation" />
-	<meta name="author" content="Codrops" />
-	<link rel="shortcut icon" href="../favicon.ico">
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+
+	<title>Movie Pins</title>
+	<meta content="Codrops" name="Shakir Thowseen">
+	<link href="../favicon.ico" rel="shortcut icon">
+	
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-
-
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-			<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<!-- <script type="text/javascript" src="js/markerclusterer.js"></script> -->
-			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB0cQlagGlUST2hpffrb8_sFMCTvwsV_l8"></script>
-				<link href="css/main.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"><!-- <script type="text/javascript" src="js/markerclusterer.js"></script> -->
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB0cQlagGlUST2hpffrb8_sFMCTvwsV_l8" type="text/javascript"></script>
+	<link href="css/main.css" rel="stylesheet">
+</head>
 
-		</head>
-		<body>
-			<div class="container_nob">
-					<div class="content row">
+<body>
+	<div class="container_nob">
+		<div class="content row">
+			<div class="col-sm-3 col-md-3 col-lg-3" id="menu">
+				<div class="row" id="logo">
+					<h2>MOVIE PINS</h2>
+				</div>
 
-					
+				<div class="row menuItem" id="circles">
+					<h3><i class="fa fa-circle-thin"></i> Movie Circles</h3>
 
-						<div id="menu" class="col-sm-3 col-md-3 col-lg-3">
-							<div class="row" id="search">
-								<div id="search-type" class="btn-group">
-										<a href="javascript:void(0)" class="btn btn-default"><i class="fa fa-film"></i></a>
-										<a href="javascript:void(0)" class="btn btn-default"><i class="fa fa-users"></i></a>
-										<a href="javascript:void(0)" class="btn btn-default"><i class="fa fa-map-marker"></i></a>
-										<a href="javascript:void(0)" class="btn btn-default"><i class="fa fa-building-o"></i></a>
-								</div>
-								<div id="search-input" class="input-group">
-									<input type="text" class="form-control" placeholder="Search" aria-describedby="basic-addon1">
-																				<span class="input-group-btn">
-				<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
-			</span>
+					<ul>
+						<li>
+							<div class="circle" id="following"></div>Following <span class="selected fa fa-angle-right" style="font-style: italic"></span>
+						</li>
 
-								</div>
-								<ul class="autocompletelist">
+						<li>
+							<div class="circle" id="in-theater"></div>In Theaters
+						</li>
 
-								</ul>
+						<li>
+							<div class="circle" id="now-showing"></div>Now Shooting
+						</li>
+					</ul>
+				</div>
 
-							</div>
-							<div class="row menuItem" id="circles">
-								<h3><i class="fa fa-circle-thin"></i> Movie Circles</h3>
-								<ul>
-									<li><div class="circle" id="following"></div>Following <span><i class="selected fa fa-angle-right"></i></span></li>
-									<li><div class="circle" id="in-theater"></div>In Theaters</li>
-									<li><div class="circle" id="now-showing"></div>Now Shooting</li>
-								</ul>
-							</div>
-							<div class="row menuItem" id="filters">
-								
-									<h3><i class="fa fa-filter"></i> Filters</h3>
-									<!-- <ul>
-										<li><div class="circle" id="following"></div>Following <span><i class="selected fa fa-angle-right"></i></span></li>
-										<li><div class="circle" id="in-theater"></div>In Theaters</li>
-										<li><div class="circle" id="now-showing"></div>Now Shooting</li>
-									</ul> -->
+				<div class="row menuItem" id="filters">
+					<h3><i class="fa fa-filter"></i> Filters</h3>
+				</div>
+			</div>
 
-
-							</div>
-				
-						</div>
-
-
-						<div id="map-container" class="col-sm-9 col-md-9 col-lg-9">
-							<div id="map-canvas"></div>
-						</div>
-
-
+			<div class="col-sm-9 col-md-9 col-lg-9" id="map-container">
+				<div id="search-container">
+					<div class="input-group" id="search-input">
+						<input class="form-control" placeholder="Search" type="text">
 					</div>
 
+					<ul class="autocompletelist"></ul>
+				</div>
 
+				<div id="map-canvas"></div>
+			</div>
+		</div>
 
-					<div class="details-slider" id="cbp-spmenu-s2"></div>
+		<div class="details-slider" id="cbp-spmenu-s2"></div>
+	</div><!-- /container -->
+	<script id="details-slider-template" type="text/template">
 
-
-
-			</div><!-- /container -->
-
-			<script type="text/template" id ="details-slider-template">
-
-						<iframe type="text/html" width="400" height="260"
-						src="https://www.youtube.com/embed/gAjgXlvVexI?controls=0&modestbranding=1&rel=0&showinfo=0&autohide=1"
-						frameborder="0" allowfullscreen></iframe> 
+					<img src='images/placeholder.png' width="100%">
 					<div class="row" id="titleInfo">
 							<h5 class="title"> <strong><%= title %></strong> (<%= year %>) <span><%= runtime %> min</span></h5>
 							<p class="genres">Actions, Adventure</p>
 							<p id="synopsis"><%= synopsis %></p>
 							<strong>Director: </strong><span> James Bob</span><br>
 							<strong>Stars: </strong><span> <%= cast_1%>, <%= cast_2%></span>
-					</div>	
+					</div>  
 					<div class="row ratings">
 						<div class="col-md-6 col-sm-6 col-lg-6">
 							<i class="fa fa-star <%= a.one %>"></i>
@@ -128,44 +106,35 @@
 						<div class="col-md-3 col-sm-3 col-lg-3"><span><i class="fa fa-usd"></i><br>23</span></div>
 						
 
-					</div>	
-				
-						<button class="close-button btn btn-danger btn-block" onclick="$(this).parent().toggleClass('details-slider-open')"><i class="fa fa-times">Close </i></button>
+					</div>
+
+					<button class="close-button btn btn-danger btn-block" onclick="$(this).parent().removeClass('details-slider-open')"><i class="fa fa-times">Close </i></button>
 			
 
 
-</script>
+	</script> <script id="autocomple-template" type="text/template">
 
-
-<script type="text/template" id ="autocomple-template">
-
-<% console.log(items); _.each(items, function(item) {  console.log(item)%>
-									<li>
+	<%  _.each(items, function(item, i) {  console.log(item)%>
+									<li  class='autocompleteItem' data-collection-index='<%= i %>'>
 										<div class="row">
 											<div class="col-md-2 col-sm-2"><i class="fa fa-film"></i></div>
-											<div class="col-md-8 col-sm-6">title</div>
-											<div class="col-md-2 col-sm-2">year</div>
+											<div class="col-md-8 col-sm-6"><%= item.attributes.title %></div>
+											<div class="col-md-2 col-sm-2"><%=item.attributes.release_year %></div>
 										</div>
 										<div class="row">
 											<div class="col-md-2 col-sm-2"><i class="fa fa-map-marker"></i></div>
-											<div class="col-md-10 col-sm-2"></div>
+											<div class="col-md-10 col-sm-2"><%=item.attributes.locations %></div>
 										</div>
 									</li>
 
-									        <% }); %>
+											<% }); %>
 
-</script>
-
-		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
-
-
-		<script src="js/main.js"></script>
-		<script src="https://apis.google.com/js/client.js?onload=loadApiClient"></script>
-
-
-
-	</body>
-	</html>
+	</script> 
+	<script src="//code.jquery.com/jquery-1.10.2.min.js">
+	</script> <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script> 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script> 
+	<script src="js/main.js"></script> 
+	<script src="https://apis.google.com/js/client.js?onload=loadApiClient"></script>
+</body>
+</html>
