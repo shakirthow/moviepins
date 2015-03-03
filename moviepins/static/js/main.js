@@ -4,10 +4,10 @@
 //         }
 //         (function() {
 //                 function detailsMenu() {
-//                         menuRight = document.getElementById('cbp-spmenu-s2'),
-//                                 showRight.onclick = function() {
-//                                         $(menuRight).toggleClass('details-slider-open')
-//                                 };
+                        // menuRight = document.getElementById('cbp-spmenu-s2'),
+                        //         showRight.onclick = function() {
+                        //                 $(menuRight).toggleClass('details-slider-open')
+                        //         };
 //                 }
 //                 detailsMenu()
 //                 function getMoreDetails() {
@@ -95,46 +95,128 @@ var init = function() {
 				actor_3: 'not available'
 			}
 		});
-		var Movie = Backbone.Model.extend();
+
+		var Movie = Backbone.Model.extend({
+                        defaults: {
+                            title: 'not selected',
+                            year: "not selected",
+                            runtime: 'na',
+                            synopsis:'Only available for recent movies',
+                            cast_1:'na',
+                            cast_2:'na',
+                            posters:{posters:'na'},
+                            a:{one:'', two:'', three:'', four:'', five:''},
+                            c:{one:'', two:'', three:'', four:'', five:''},
+
+                            formated:false                     
+                    },
+                });
+
+                var AutoCompleteItem = Backbone.Model.extend()
+
+                var AutoCompleteCollection = Backbone.Collection.extend({
+                        model:AutoCompleteItem
+                })
+
+                var AutoCompleteView = Backbone.View.extend({
+                        el:'.autocompletelist',
+                        initialize: function(){
+                                var that = this
+                                $('#search-input input').keyup( function() {
+                                        var input = $(this)
+                                        delay(function(){
+                                                 gapi.client.moviepins.movies.search({
+                                                     'q':input.val()
+                                                }).execute(function(resp) {
+                                                        autoCvalues = JSON.parse(resp.resp)
+                                                        for(item in autoCvalues){
+                                                                console.log(autoCvalues[item])
+                                                                that.collection.add(autoCvalues[item])
+                                                        }
+                                                });
+
+                                        }, 1000 );
+                                });
+                        },
+                        render:function(){
+                                // alert($('#autocomple-template').html(),{items: this.collection})
+                                var template = _.template($('#autocomple-template').html());
+                                variables = {items: this.collection.models}
+                                this.$el.html(template(variables));
+                        }
+                })
+
+                autoCompleteCollection = new AutoCompleteCollection({
+                        model:AutoCompleteItem
+                })
+                
+                AutoCompleteView = new AutoCompleteView({
+                        collection:autoCompleteCollection
+                }).render()
+
+
 
 
 		var MoviePinCollection = Backbone.Collection.extend({
 			model: MoviePin,
-			// initialize: function(models, options) {
-			// 	// this.bind('add', function(model) {
-			// 	// 	 alert("Oh snap, we have a model!");
-			// 	// });
-			// 	this.options = options;
-			// 	this.fetch();
-			// },
-			// url: function() {
-			// 	return ROOT+this.options.apipath + "?" + this.options.params;
-			// }
 		});
+
+                
 		var DetailsView = Backbone.View.extend({
 			el: '.details-slider',
 			initialize: function(){
 				this.listenTo(this.model, "change", this.render);
-			}
+                                // this.nodeTemplate = _.template($('#note-template').html());
+			},
 			render: function(){
-				var movie = new Movie()
-				var that = this
-				followingMovies.fetch({
-					data: {
-						name: 'Test',
-						email: 'shakir@gmail.com'
-					},
-					sucess:function(){
-						that.$el.html('content here')
-						console.log('sucess')
-					},
-					error: function () {
-						console.log('err')
-					},
-					complete: function(data){
-						console.log(data.responseJSON)
-					}
-				})
+				
+                                // console.log($('#details-slider-template').html())
+                                console.log(this.model.attributes)
+                                var template  = _.template($('#details-slider-template').html());
+                                variables = this.model.attributes
+                                if(this.model.attributes.formated){
+                                        if (variables.synopsis.length < 2){
+                                                variables.synopsis = 'Only available for recent movies'
+                                        }
+                                        if(this.model.attributes.abridged_cast.length >=2){
+                                                variables.cast_1 = variables.abridged_cast[0].name
+                                                variables.cast_2 = variables.abridged_cast[1].name
+                                        }
+                                        a = variables.ratings.audience_score
+                                        if(a > 20 ){variables.a.one = 'color'}
+                                        if(a > 40 ){variables.a.two = 'color'}
+                                        if(a > 60 ){variables.a.three= 'color'}
+                                        if(a > 80 ){variables.a.four = 'color'}
+                                        if(a > 100 ){variables.a.five = 'color'}
+
+                                        c = variables.ratings.critics_score
+                                        if(c >20 ){variables.c.one = 'color'}
+                                        if(c > 40 ){variables.c.two = 'color'}
+                                        if(c > 60 ){variables.c.three = 'color'}
+                                        if(c > 80 ){variables.c.four = 'color'}
+                                        if(c > 100 ){variables.c.five = 'color'}
+
+                                }
+                                else{
+                                        this.model.attributes.formated = true;
+                                }
+				this.$el.html(template(variables))
+				// followingMovies.fetch({
+				// 	data: {
+				// 		name: 'Test',
+				// 		email: 'shakir@gmail.com'
+				// 	},
+				// 	sucess:function(){
+				// 		that.$el.html('content here')
+				// 		console.log('sucess')
+				// 	},
+				// 	error: function () {
+				// 		console.log('err')
+				// 	},
+				// 	complete: function(data){
+				// 		console.log(data.responseJSON)
+				// 	}
+				// })
 			}
 		})
 
@@ -161,6 +243,7 @@ var init = function() {
 			// 	})
 			// }
 			initialize: function() {
+
 				var myLatlng = new google.maps.LatLng(37.7577, -122.4376);
 				var mapOptions = {
 					// styles: [{"featureType":"all","elementType":"all","stylers":[{"invert_lightness":true},{"saturation":10},{"lightness":30},{"gamma":0.5},{"hue":"#435158"}]}],
@@ -178,6 +261,9 @@ var init = function() {
 					zoom: 13
 				}
 				var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+
+                                menuRight = $('#cbp-spmenu-s2'),
 				this.collection.bind('add', function(model) {
 					// (function(model) {
 						service = new google.maps.places.PlacesService(map);
@@ -203,14 +289,15 @@ var init = function() {
 								google.maps.event.addListener(marker,'click',function() {
 								  	map.setZoom(16);
 								  	map.setCenter(marker.getPosition());
-								  	console.log(this.title)
-
+								  	console.log(this.title)                                                                        
 									gapi.client.moviepins.movies.details({
 										'title':'Foul Play',
 										'year':'1978'
 									}).execute(function(resp) {
-										console.log(resp.resp)
+										// console.log(resp.resp)
 									  	console.log(JSON.parse(resp.resp));
+                                                                                movie_details.set(JSON.parse(resp.resp));
+                                                                                $(menuRight).toggleClass('details-slider-open')
 									});	
 
 								});
@@ -229,10 +316,15 @@ var init = function() {
 		var pins = new MoviePinCollection([], {
 			model: MoviePin,
 		});
-
 		var movie_map = new MapView({
 			collection: pins
 		});
+                var movie_details = new Movie()
+                var details_view = new DetailsView({
+                        model:movie_details
+                }).render();
+
+
 
 		gapi.client.moviepins.movies.find({
 			'title':'Foul Play'
@@ -244,15 +336,15 @@ var init = function() {
 		});
 
 
-		// var Router = Backbone.Router.extend({
-		// 	routes: {
-		// 		'': 'home'
-		// 	}
-		// })
-		// var mapView = new MapView();
-		// var router = new Router();
-		// router.on('route:home', function() {
-		// 	mapView.render();
-		// })
-		// Backbone.history.start()
+		
 	} //end init
+
+
+        //utility functions
+        var delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();

@@ -27,6 +27,9 @@ class MovieDetails(messages.Message):
   title = messages.StringField(1)
   director = messages.StringField(2)
 
+class SearchMovies(messages.Message):
+  q = messages.StringField(1)
+
 class Response(messages.Message):
   resp = messages.StringField(1)
 
@@ -75,8 +78,8 @@ class Movies(remote.Service):
       params_encoded = urllib.urlencode(params)
      
       resp, content = httplib2.Http().request('http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey='+TOMATO_KEY+'&'+params_encoded)
-      pprint.pprint("******************************")
-      pprint.pprint(resp.status)
+      # pprint.pprint("******************************")
+      # pprint.pprint(resp.status)
       if resp.status == 200:
         con_obj = json.loads(content)
         for movie in con_obj[u'movies']:
@@ -88,15 +91,35 @@ class Movies(remote.Service):
 
 
 
-
-
-
-
-
-    @endpoints.method(GetMovies, Response,
+    @endpoints.method(SearchMovies, Response,
                       path='search', http_method='GET',
                       name='search')
     def search(self, request):
-      base_str = "https://data.sfgov.org/resource/yitu-d5am.json?&"
-      resp, content = httplib2.Http().request(base_str+"$$app_token="+SODA_APP_TOKEN)
+      base_str = "https://data.sfgov.org/resource/yitu-d5am?$q="+request.q+"&$limit=10"
+      resp, content = httplib2.Http().request(base_str)#+"$$app_token="+SODA_APP_TOKEN
       return  Response(resp = content.encode('ascii', 'replace'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

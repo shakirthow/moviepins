@@ -25,7 +25,7 @@
 
 					
 
-						<div id="menu" class="col-sm-2 col-md-2 col-lg-2">
+						<div id="menu" class="col-sm-3 col-md-3 col-lg-3">
 							<div class="row" id="search">
 								<div id="search-type" class="btn-group">
 										<a href="javascript:void(0)" class="btn btn-default"><i class="fa fa-film"></i></a>
@@ -40,34 +40,35 @@
 			</span>
 
 								</div>
+								<ul class="autocompletelist">
+
+								</ul>
 
 							</div>
-							<div class="row" id="circles">
-								<h3><div class="circle"></div> Movie Circles</h3>
+							<div class="row menuItem" id="circles">
+								<h3><i class="fa fa-circle-thin"></i> Movie Circles</h3>
 								<ul>
 									<li><div class="circle" id="following"></div>Following <span><i class="selected fa fa-angle-right"></i></span></li>
 									<li><div class="circle" id="in-theater"></div>In Theaters</li>
 									<li><div class="circle" id="now-showing"></div>Now Shooting</li>
 								</ul>
 							</div>
-							<div class="row" id="filters">
+							<div class="row menuItem" id="filters">
 								
-									<h3><div class="circle"></div> Movie Circles</h3>
-									<ul>
+									<h3><i class="fa fa-filter"></i> Filters</h3>
+									<!-- <ul>
 										<li><div class="circle" id="following"></div>Following <span><i class="selected fa fa-angle-right"></i></span></li>
 										<li><div class="circle" id="in-theater"></div>In Theaters</li>
 										<li><div class="circle" id="now-showing"></div>Now Shooting</li>
-									</ul>
+									</ul> -->
 
 
 							</div>
-							<div class="button-wrap"><button id="dlTrigg" data-dialog="somedialog" class="trigger">Open Dialog</button></div>
-							<button id="showRight">Show/Hide Right Slide Menu</button>
-							<div class="page"></div>
+				
 						</div>
 
 
-						<div id="map-container" class="col-sm-10 col-md-10 col-lg-10">
+						<div id="map-container" class="col-sm-9 col-md-9 col-lg-9">
 							<div id="map-canvas"></div>
 						</div>
 
@@ -76,31 +77,46 @@
 
 
 
-					<div class="details-slider details-slider-open" id="cbp-spmenu-s2">
-					<div class="row">
-<!-- 
+					<div class="details-slider" id="cbp-spmenu-s2"></div>
+
+
+
+			</div><!-- /container -->
+
+			<script type="text/template" id ="details-slider-template">
+
 						<iframe type="text/html" width="400" height="260"
 						src="https://www.youtube.com/embed/gAjgXlvVexI?controls=0&modestbranding=1&rel=0&showinfo=0&autohide=1"
-						frameborder="0" allowfullscreen></iframe> -->
-					</div>
+						frameborder="0" allowfullscreen></iframe> 
 					<div class="row" id="titleInfo">
-							<h5 class="title"> <strong>Movie Name</strong> (2015) <span>123 min</span></h5>
+							<h5 class="title"> <strong><%= title %></strong> (<%= year %>) <span><%= runtime %> min</span></h5>
 							<p class="genres">Actions, Adventure</p>
-							<p id="synopsis">Pixar returns to their first success with Toy Story 3. The movie begins with Andy leaving for college and donating his beloved toys -- including Woody (Tom Hanks) and Buzz (Tim Allen) -- to a daycare. While the crew meets new friends, including Ken (Michael Keaton), they soon grow to hate their new surroundings and plan an escape. The film was directed by Lee Unkrich from a script co-authored by Little Miss Sunshine scribe Michael Arndt. ~ Perry Seibert, Rovi</p>
+							<p id="synopsis"><%= synopsis %></p>
 							<strong>Director: </strong><span> James Bob</span><br>
-							<strong>Stars: </strong><span> Larry Page, Michel Bay</span>
+							<strong>Stars: </strong><span> <%= cast_1%>, <%= cast_2%></span>
 					</div>	
-					<div class="row" id="ratings">
+					<div class="row ratings">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-
+							<i class="fa fa-star <%= a.one %>"></i>
+							<i class="fa fa-star <%= a.two %>"></i>
+							<i class="fa fa-star <%= a.three %>"></i>
+							<i class="fa fa-star <%= a.four %>"></i>
+							<i class="fa fa-star <%= a.five %>"></i>
 						</div>
-						<div class="col-md-6 col-sm-6 col-lg-6"><span>123</span></div>
-					</div>	
+						<div class="col-md-6 col-sm-6 col-lg-6"><span>Audience Rating</span></div>
+					</div>
+
+					<div class="row ratings ratings_c">
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<i class="fa fa-star <%= c.one %>"></i>
+							<i class="fa fa-star <%= c.two %>"></i>
+							<i class="fa fa-star <%= c.three %>"></i>
+							<i class="fa fa-star <%= c.four %>"></i>
+							<i class="fa fa-star <%= c.five %>"></i>
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6"><span>Critic Rating</span></div>
+					</div
+
 
 
 					<div class="row" id="uber">
@@ -113,14 +129,33 @@
 						
 
 					</div>	
+				
+						<button class="close-button btn btn-danger btn-block" onclick="$(this).parent().toggleClass('details-slider-open')"><i class="fa fa-times">Close </i></button>
+			
 
 
-
-					</div>
-
+</script>
 
 
-			</div><!-- /container -->
+<script type="text/template" id ="autocomple-template">
+
+<% console.log(items); _.each(items, function(item) {  console.log(item)%>
+									<li>
+										<div class="row">
+											<div class="col-md-2 col-sm-2"><i class="fa fa-film"></i></div>
+											<div class="col-md-8 col-sm-6">title</div>
+											<div class="col-md-2 col-sm-2">year</div>
+										</div>
+										<div class="row">
+											<div class="col-md-2 col-sm-2"><i class="fa fa-map-marker"></i></div>
+											<div class="col-md-10 col-sm-2"></div>
+										</div>
+									</li>
+
+									        <% }); %>
+
+</script>
+
 		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>

@@ -70,10 +70,11 @@ margin: 10px auto;
 #circles, #filters{
 	padding: 10px;
 }
-#circles h3{
+.menuItem h3{
 	color:#394952;
+	font-size: 20px;
 }
-#circles li{
+.menuItem li{
 	list-style: none;
 	font-size: 16px;
 	color: #fff;
@@ -125,8 +126,20 @@ li .selected{
 
 
 
-
-
+/*Auto COmplete list*/
+.autocompletelist{
+	background-color: #CE4F4D;
+	/*opacity: 0.8;*/
+	padding: 10px;
+	z-index: 20;
+}
+.autocompletelist li{
+	list-style: none;
+	border-bottom: solid 1px #fff ;
+}
+.autocompletelist .row{
+	/*margin-right: 0px;*/
+}
 
 
 
@@ -177,15 +190,21 @@ li .selected{
 	max-height: 80px;
 	overflow-y: scroll;
 }
-.details-slider #ratings{
+.details-slider .ratings{
 	padding: 10px 5px;
+}
+.details-slider .ratings_c{
 	border-bottom: 1px solid #e8e8e8;
 }
-.details-slider #ratings i{
+
+.details-slider .ratings i{
 	font-size: 24px;
 }
-.details-slider #ratings span{
+.details-slider .ratings span{
 	float: right;
+}
+.ratings .color{
+	color: #f1c40f;
 }
 .details-slider #uber{
 	text-align: center;
@@ -195,7 +214,11 @@ li .selected{
 	border-bottom: 1px solid #e8e8e8;
 
 }
-
+.close-button{
+	font-size: 20px;
+	width: 90%;
+	margin: auto;
+}
 
 
 
