@@ -20,7 +20,7 @@
 <body>
 	<div class="container_nob">
 		<div class="content row">
-			<div class="col-sm-3 col-md-3 col-lg-3" id="menu">
+<!-- 			<div class="col-xs-3 col-sm-3 col-md-2 col-lg-2" id="menu">
 				<div class="row" id="logo">
 					<h2>MOVIE PINS</h2>
 				</div>
@@ -46,9 +46,9 @@
 				<div class="row menuItem" id="filters">
 					<h3><i class="fa fa-filter"></i> Filters</h3>
 				</div>
-			</div>
+			</div> -->
 
-			<div class="col-sm-9 col-md-9 col-lg-9" id="map-container">
+			<div class="col-xs-9 col-sm-9 col-md-10 col-lg-10" id="map-container">
 				<div id="search-container">
 					<div class="input-group" id="search-input">
 						<input class="form-control" placeholder="Search" type="text">
@@ -65,37 +65,35 @@
 	</div><!-- /container -->
 	<script id="details-slider-template" type="text/template">
 
-					<img src='images/placeholder.png' width="100%">
+					<img src='<%= backdrop_path %>' width="100%">
 					<div class="row" id="titleInfo">
-							<h5 class="title"> <strong><%= title %></strong> (<%= year %>) <span><%= runtime %> min</span></h5>
-							<p class="genres">Actions, Adventure</p>
-							<p id="synopsis"><%= synopsis %></p>
-							<strong>Director: </strong><span> James Bob</span><br>
-							<strong>Stars: </strong><span> <%= cast_1%>, <%= cast_2%></span>
+							<h5 class="title"> <strong><%= title %></strong> -<small><%= tagline %></small> <span><%= runtime %> min</span></h5>
+							
+							<% var genre_cast = [];  _.each(genres, function(genre) { genre_cast.push(genre.name) });  %>
+							<p class="genres"><%= genre_cast.join(", ") %></p>
+							<p id="synopsis"><%= overview %></p>
+							
 					</div>  
-					<div class="row ratings">
-						<div class="col-md-6 col-sm-6 col-lg-6">
-							<i class="fa fa-star <%= a.one %>"></i>
-							<i class="fa fa-star <%= a.two %>"></i>
-							<i class="fa fa-star <%= a.three %>"></i>
-							<i class="fa fa-star <%= a.four %>"></i>
-							<i class="fa fa-star <%= a.five %>"></i>
+										<hr>
+
+					<div class="row">
+						<div class='poster_img col-xs-4 col-md-4 col-sm-4 col-lg-4'>
+							<img src='<%= poster_path %>'>
 						</div>
-						<div class="col-md-6 col-sm-6 col-lg-6"><span>Audience Rating</span></div>
+						<div class='col-xs-8 col-md-8 col-sm-8 col-lg-8'>
+							<strong>Production Company</strong><br><span> <%=production_companies[0].name%></span><br>
+							<% var arr_cast = [];  _.each(credits.cast, function(cast) { arr_cast.push(cast.name) });  %>
+							<strong>Cast</strong><br><span><%= arr_cast.join(", ") %></span>
+							<br><strong>Rating</strong><br>
+								<i class="fa fa-star <%= vote_average > 2 %>"></i>
+								<i class="fa fa-star <%= vote_average > 4 %>"></i>
+								<i class="fa fa-star <%= vote_average > 6 %>"></i>
+								<i class="fa fa-star <%= vote_average > 8 %>"></i>
+								<i class="fa fa-star <%= vote_average > 10 %>"></i>
+						</div>
+				
 					</div>
-
-					<div class="row ratings ratings_c">
-						<div class="col-md-6 col-sm-6 col-lg-6">
-							<i class="fa fa-star <%= c.one %>"></i>
-							<i class="fa fa-star <%= c.two %>"></i>
-							<i class="fa fa-star <%= c.three %>"></i>
-							<i class="fa fa-star <%= c.four %>"></i>
-							<i class="fa fa-star <%= c.five %>"></i>
-						</div>
-						<div class="col-md-6 col-sm-6 col-lg-6"><span>Critic Rating</span></div>
-					</div
-
-
+					<hr>
 
 					<div class="row" id="uber">
 						<div class="col-md-3 col-sm-3 col-lg-3">

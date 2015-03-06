@@ -154,7 +154,6 @@ li .selected {
 
 .details-slider #titleInfo {
 	padding:5px 5px 10px;
-	border-bottom:1px solid #e8e8e8
 }
 
 .title {
@@ -174,9 +173,6 @@ li .selected {
 	padding:10px 5px
 }
 
-.details-slider .ratings_c {
-	border-bottom:1px solid #e8e8e8
-}
 
 .details-slider .ratings i {
 	font-size:24px
@@ -186,17 +182,21 @@ li .selected {
 	float:right
 }
 
-.ratings .color {
+.fa-star.true{
 	color:#f1c40f
 }
-
+.poster_img{
+	padding: 0px;
+}
+.poster_img img{
+	width: 100%;
+}
 .details-slider #uber {
 	text-align:center
 }
-
+.details .endline
 .details-slider #uber {
 	padding:10px 5px;
-	border-bottom:1px solid #e8e8e8
 }
 
 .close-button {

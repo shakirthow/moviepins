@@ -21,6 +21,7 @@ import pprint
 SODA_APP_TOKEN = 'CI8NkwQLjR5fbNjRwUrtbZz52'
 SALT = 'U2ltYmE0UHJlc2lkZW50'
 TOMATO_KEY = 'wefqm3hwnmjmvje8v4nmbsdv'
+MOVIEDB_KEY= '7bfb5aa6abb2c2a47d4bba0e1ff36ccc'
 
 moviepins = endpoints.api(name='moviepins', version='v1.0', description='API for managing Users and related medical data')
 

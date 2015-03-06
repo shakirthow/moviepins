@@ -89,9 +89,10 @@ class Movies(remote.Service):
                       path='search', http_method='GET',
                       name='search')
     def search(self, request):
-      base_str = "https://data.sfgov.org/resource/yitu-d5am?$q="+request.q+"&$limit=10"
+
+      base_str = "https://data.sfgov.org/resource/yitu-d5am?$"+urllib.urlencode({'q':request.q})+"&$limit=10"
       resp, content = httplib2.Http().request(base_str)#+"$$app_token="+SODA_APP_TOKEN
-      return  Response(resp = content.encode('ascii', 'replace'))
+      return  Response(resp = content.decode(encoding='utf-8',errors='ignore'))
 
 
 

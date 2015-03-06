@@ -1,9 +1,12 @@
-var ROOT = 'https://moviepins.appspot.com/_ah/api';
+var API_ROOT = 'https://moviepins.appspot.com/_ah/api';
+var moviedb_apibase = 'http://api.themoviedb.org/3'
+var moviedb_key = '7bfb5aa6abb2c2a47d4bba0e1ff36ccc'
+var moviedb_base = 'http://image.tmdb.org/t/p/w500'
 
 function loadApiClient() {
 	gapi.client.load('moviepins', 'v1.0', function() {
 		init()
-	}, ROOT);
+	}, API_ROOT);
 }
 var init = function() {
 		var markers = [];
@@ -16,30 +19,30 @@ var init = function() {
 		});
 		var Movie = Backbone.Model.extend({
 			defaults: {
-				title: 'not selected',
-				year: "not selected",
-				runtime: 'na',
-				synopsis: 'Only available for recent movies',
-				cast_1: 'na',
-				cast_2: 'na',
-				posters: {
-					posters: 'na'
-				},
-				a: {
-					one: '',
-					two: '',
-					three: '',
-					four: '',
-					five: ''
-				},
-				c: {
-					one: '',
-					two: '',
-					three: '',
-					four: '',
-					five: ''
-				},
-				formated: false
+				// title: 'not selected',
+				// year: "not selected",
+				// runtime: 'na',
+				// synopsis: 'Only available for recent movies',
+				// cast_1: 'na',
+				// cast_2: 'na',
+				// posters: {
+				// 	posters: 'na'
+				// },
+				// a: {
+				// 	one: '',
+				// 	two: '',
+				// 	three: '',
+				// 	four: '',
+				// 	five: ''
+				// },
+				// c: {
+				// 	one: '',
+				// 	two: '',
+				// 	three: '',
+				// 	four: '',
+				// 	five: ''
+				// },
+				// formated: false
 			},
 		});
 		var AutoCompleteItem = Backbone.Model.extend({
@@ -114,45 +117,49 @@ var init = function() {
 				var template = _.template($('#details-slider-template').html());
 				variables = this.model.attributes
 				if (this.model.attributes.formated) {
-					if (variables.synopsis.length < 2) {
-						variables.synopsis = 'Only available for recent movies'
-					}
-					if (this.model.attributes.abridged_cast.length >= 2) {
-						variables.cast_1 = variables.abridged_cast[0].name
-						variables.cast_2 = variables.abridged_cast[1].name
-					}
-					a = variables.ratings.audience_score
-					if (a > 20) {
-						variables.a.one = 'color'
-					}
-					if (a > 40) {
-						variables.a.two = 'color'
-					}
-					if (a > 60) {
-						variables.a.three = 'color'
-					}
-					if (a > 80) {
-						variables.a.four = 'color'
-					}
-					if (a > 100) {
-						variables.a.five = 'color'
-					}
-					c = variables.ratings.critics_score
-					if (c > 20) {
-						variables.c.one = 'color'
-					}
-					if (c > 40) {
-						variables.c.two = 'color'
-					}
-					if (c > 60) {
-						variables.c.three = 'color'
-					}
-					if (c > 80) {
-						variables.c.four = 'color'
-					}
-					if (c > 100) {
-						variables.c.five = 'color'
-					}
+                                        this.model.attributes.backdrop_path = moviedb_base + this.model.attributes.backdrop_path
+                                        this.model.attributes.poster_path = moviedb_base + this.model.attributes.poster_path
+                                        this.model.attributes.tagline = '';
+
+					// if (variables.synopsis.length < 2) {
+					// 	variables.synopsis = 'Only available for recent movies'
+					// }
+					// if (this.model.attributes.abridged_cast.length >= 2) {
+					// 	variables.cast_1 = variables.abridged_cast[0].name
+					// 	variables.cast_2 = variables.abridged_cast[1].name
+					// }
+					// a = variables.ratings.audience_score
+					// if (a > 20) {
+					// 	variables.a.one = 'color'
+					// }
+					// if (a > 40) {
+					// 	variables.a.two = 'color'
+					// }
+					// if (a > 60) {
+					// 	variables.a.three = 'color'
+					// }
+					// if (a > 80) {
+					// 	variables.a.four = 'color'
+					// }
+					// if (a > 100) {
+					// 	variables.a.five = 'color'
+					// }
+					// c = variables.ratings.critics_score
+					// if (c > 20) {
+					// 	variables.c.one = 'color'
+					// }
+					// if (c > 40) {
+					// 	variables.c.two = 'color'
+					// }
+					// if (c > 60) {
+					// 	variables.c.three = 'color'
+					// }
+					// if (c > 80) {
+					// 	variables.c.four = 'color'
+					// }
+					// if (c > 100) {
+					// 	variables.c.five = 'color'
+					// }
 				}
 				else {
 					this.model.attributes.formated = true;
@@ -213,15 +220,73 @@ var init = function() {
 								map.setZoom(16);
 								map.setCenter(marker.getPosition());
 								console.log(model.attributes.release_year)
-								gapi.client.moviepins.movies.details({
-									'title': model.attributes.title,
-									'year': model.attributes.release_year
-								}).execute(function(resp) {
-									console.log(resp)
-									console.log(JSON.parse(resp.resp));
-									movie_details.set(JSON.parse(resp.resp));
-									$(menuRight).addClass('details-slider-open')
-								});
+								
+
+        //                                                         gapi.client.moviepins.movies.details({
+								// 	'title': model.attributes.title,
+								// 	'year': model.attributes.release_year
+								// }).execute(function(resp) {
+								// 	console.log(resp)
+								// 	console.log(JSON.parse(resp.resp));
+								// 	movie_details.set(JSON.parse(resp.resp));
+								// 	$(menuRight).addClass('details-slider-open')
+								// });
+                                                                gettheDetails = function(type, id){
+                                                                        $.ajax({
+                                                                        url:moviedb_apibase + '/'+type+'/'+id,
+                                                                        data:
+                                                                                {
+                                                                                        'api_key':moviedb_key,
+                                                                                        'append_to_response':'credits,videos'
+                                                                                }                         
+                                                                        }).done(function(movie_detail){
+                                                                                if (type == 'tv') {
+                                                                                        movie_detail.title = movie_detail.name
+                                                                                        movie_detail.runtime = 'Episode: '+movie_detail.episode_run_time
+                                                                                };
+                                                                                // z.clear().set(movie_detail);
+                                                                                movie_details.set(movie_detail);
+                                                                                $(menuRight).addClass('details-slider-open')
+                                                                        }).fail(function(){
+                                                                                alert("error")
+                                                                        })
+                                                                }
+
+                                                                $.ajax({
+                                                                        url: moviedb_apibase + "/search/movie",
+                                                                        data: 
+                                                                        {
+                                                                                'api_key':moviedb_key, 
+                                                                                'query':model.attributes.title,
+                                                                                'year':model.attributes.release_year
+                                                                        }
+                                                                }).done(function(resp) {
+                                                                        if(resp.results.length > 0){
+                                                                                gettheDetails('movie', resp.results[0].id)
+                                                                        }
+                                                                        else{
+                                                                                $.ajax({
+                                                                                        url: moviedb_apibase + "/search/tv",
+                                                                                        data: 
+                                                                                        {
+                                                                                                'api_key':moviedb_key, 
+                                                                                                'query':model.attributes.title,
+                                                                                                'year':model.attributes.release_year
+                                                                                        }
+                                                                                }).done(function(resp) {
+                                                                                        if(resp.results.length > 0){
+                                                                                                // result_id = resp.results[0].id
+                                                                                                // result_type = 'tv'
+                                                                                                gettheDetails('tv', resp.results[0].id)
+                                                                                        }
+                                                                                }).fail(function() {
+                                                                                    alert( "error" );
+                                                                                })
+                                                                        }
+                                                                }).fail(function() {
+                                                                    alert( "error" );
+                                                                })
+                                                                
 							});
 							// var markerCluster = new MarkerClusterer(map, markers);
 						}
