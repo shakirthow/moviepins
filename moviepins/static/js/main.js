@@ -120,6 +120,7 @@ var init = function() {
                                         this.model.attributes.backdrop_path = moviedb_base + this.model.attributes.backdrop_path
                                         this.model.attributes.poster_path = moviedb_base + this.model.attributes.poster_path
                                         this.model.attributes.tagline = '';
+                                        // this.model.attributes.production_companies[{name:'Not Available'}]
 
 					// if (variables.synopsis.length < 2) {
 					// 	variables.synopsis = 'Only available for recent movies'

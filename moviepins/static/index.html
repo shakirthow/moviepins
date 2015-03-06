@@ -81,7 +81,9 @@
 							<img src='<%= poster_path %>'>
 						</div>
 						<div class='col-xs-8 col-md-8 col-sm-8 col-lg-8'>
-							<strong>Production Company</strong><br><span> <%=production_companies[0].name%></span><br>
+							<% var arr_cmp = [];  if(production_companies.length >0){ _.each(production_companies, function(cmp) { arr_cast.push(cmp.name) });}else{arr_cmp.push('None Listed')}  %>
+							<strong>Production</strong><br><span><%= arr_cmp.join(", ") %></span><br>
+
 							<% var arr_cast = [];  _.each(credits.cast, function(cast) { arr_cast.push(cast.name) });  %>
 							<strong>Cast</strong><br><span><%= arr_cast.join(", ") %></span>
 							<br><strong>Rating</strong><br>
