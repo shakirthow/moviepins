@@ -20,7 +20,7 @@
 <body>
 	<div class="container_nob">
 		<div class="content row">
-<!-- 			<div class="col-xs-3 col-sm-3 col-md-2 col-lg-2" id="menu">
+			<div class="col-xs-3 col-sm-3 col-md-2 col-lg-2" id="menu">
 				<div class="row" id="logo">
 					<h2>MOVIE PINS</h2>
 				</div>
@@ -46,14 +46,18 @@
 				<div class="row menuItem" id="filters">
 					<h3><i class="fa fa-filter"></i> Filters</h3>
 				</div>
-			</div> -->
+			</div>
 
 			<div class="col-xs-9 col-sm-9 col-md-10 col-lg-10" id="map-container">
 				<div id="search-container">
 					<div class="input-group" id="search-input">
 						<input class="form-control" placeholder="Search" type="text">
 					</div>
-
+					<div id="char-rem-cont"> 
+						<span id='char-rem-span'>Type <strong id="char-rem">4</strong> more characters</span> 
+						<span id='autocomp-loader'>Searching <div class="typing_loader"></div></span>
+						<span id="search-empty"> We didnt mind any matching results. details <a href='https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am'>here</a></span>
+					</div>
 					<ul class="autocompletelist"></ul>
 				</div>
 
@@ -81,7 +85,7 @@
 							<img src='<%= poster_path %>'>
 						</div>
 						<div class='col-xs-8 col-md-8 col-sm-8 col-lg-8'>
-							<% var arr_cmp = [];  if(production_companies.length >0){ _.each(production_companies, function(cmp) { arr_cast.push(cmp.name) });}else{arr_cmp.push('None Listed')}  %>
+							<% var arr_cmp = [];  if(production_companies.length >0){ _.each(production_companies, function(cmp) { arr_cmp.push(cmp.name) });}else{arr_cmp.push('None Listed')}  %>
 							<strong>Production</strong><br><span><%= arr_cmp.join(", ") %></span><br>
 
 							<% var arr_cast = [];  _.each(credits.cast, function(cast) { arr_cast.push(cast.name) });  %>
@@ -96,25 +100,20 @@
 				
 					</div>
 					<hr>
-
+					<div class="row" id="uber-msg"><strong>Go checkout the place now!</strong></div>
 					<div class="row" id="uber">
-						<div class="col-md-3 col-sm-3 col-lg-3">
-							<img src="images/uber.jpg" width="50">
-						</div>
-						<div class="col-md-3 col-sm-3 col-lg-3"><span><i class="fa fa-map-marker"></i><br>5.61 mil</span></div>
-						<div class="col-md-3 col-sm-3 col-lg-3"><span><i class="fa fa-clock-o"></i><br>20 min</span></div>
-						<div class="col-md-3 col-sm-3 col-lg-3"><span><i class="fa fa-usd"></i><br>23</span></div>
+						
 						
 
 					</div>
-
+					<hr>
 					<button class="close-button btn btn-danger btn-block" onclick="$(this).parent().removeClass('details-slider-open')"><i class="fa fa-times">Close </i></button>
 			
 
 
 	</script> <script id="autocomple-template" type="text/template">
 
-	<%  _.each(items, function(item, i) {  console.log(item)%>
+	<%  _.each(items, function(item, i) { %>
 									<li  class='autocompleteItem' data-collection-index='<%= i %>'>
 										<div class="row">
 											<div class="col-md-2 col-sm-2"><i class="fa fa-film"></i></div>

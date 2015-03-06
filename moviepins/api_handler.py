@@ -13,5 +13,6 @@ from common import *
 from movie import *
 from user import *
 from circle import *
+from uber import *
 
 APPLICATION = endpoints.api_server([moviepins])

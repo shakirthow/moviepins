@@ -17,42 +17,12 @@ var init = function() {
 				actor_3: 'not available'
 			}
 		});
-		var Movie = Backbone.Model.extend({
-			defaults: {
-				// title: 'not selected',
-				// year: "not selected",
-				// runtime: 'na',
-				// synopsis: 'Only available for recent movies',
-				// cast_1: 'na',
-				// cast_2: 'na',
-				// posters: {
-				// 	posters: 'na'
-				// },
-				// a: {
-				// 	one: '',
-				// 	two: '',
-				// 	three: '',
-				// 	four: '',
-				// 	five: ''
-				// },
-				// c: {
-				// 	one: '',
-				// 	two: '',
-				// 	three: '',
-				// 	four: '',
-				// 	five: ''
-				// },
-				// formated: false
-			},
-		});
-		var AutoCompleteItem = Backbone.Model.extend({
-			defaults: {
-				title: 'Search for something and select from the list'
-			}
-		})
-		var AutoCompleteCollection = Backbone.Collection.extend({
-			model: AutoCompleteItem
-		})
+		var DetailsScreen = Backbone.Model.extend();
+		var Movie = Backbone.Model.extend();
+		var UberData = Backbone.Model.extend();
+
+
+		var AutoCompleteCollection = Backbone.Collection.extend()
 		var AutoCompleteView = Backbone.View.extend({
 			el: '.autocompletelist',
 			initialize: function() {
@@ -60,21 +30,48 @@ var init = function() {
 				this.collection.on('add', this.render, this);
 				this.collection.on('reset', this.render, this);
 				// this.listenTo(this.collection, "change", this.render);
+				var searchMsgCont = $('#char-rem-cont');
+				var textRemCont = $('#char-rem-span');
+				var autoCompLoader = $('#autocomp-loader')
+				var charRem = $('#char-rem');
+				var searchEmpty = $('#search-empty')
 				var that = this
 				$('#search-input input').keyup(function() {
+					textRemCont.hide()
+					searchMsgCont.show()
+					autoCompLoader.show()
+					searchEmpty.hide()
 					var input = $(this)
-					delay(function() {
-						gapi.client.moviepins.movies.search({
-							'q': input.val()
-						}).execute(function(resp) {
-							autoCvalues = JSON.parse(resp.resp)
-							that.collection.reset()
-							for (var item in autoCvalues) {
-								console.log(autoCvalues[item])
-								that.collection.add(autoCvalues[item])
-							}
-						});
-					}, 1000);
+					if(input.val().length >= 3){
+						delay(function() {
+							gapi.client.moviepins.movies.search({
+								'q': input.val()
+							}).execute(function(resp) {
+								autoCvalues = JSON.parse(resp.resp)
+								that.collection.reset()
+								if(autoCvalues.length == 0){
+									autoCompLoader.hide();
+									searchEmpty.show();
+								}
+								else{
+									searchEmpty.hide();
+									autoCompLoader.hide();
+									for (var item in autoCvalues) {
+										// console.log(autoCvalues[item])
+										that.collection.add(autoCvalues[item])
+									}
+								}
+
+							});
+						}, 1000);
+					}
+					else{
+						searchMsgCont.show();
+						textRemCont.show();
+						autoCompLoader.hide()
+						searchEmpty.hide();
+						charRem.html(3 - input.val().length)
+					}
 				});
 			},
 			render: function() {
@@ -90,15 +87,13 @@ var init = function() {
 						// console.log(index.collectionIndex)
 					pins.reset();
 					markers = clearMarkers(markers)
-					console.log(that.collection.at(index.collectionIndex))
+					// console.log(that.collection.at(index.collectionIndex))
 					pins.add(that.collection.at(index.collectionIndex));
 					that.collection.reset();
 				})
 			}
 		})
-		autoCompleteCollection = new AutoCompleteCollection({
-			model: AutoCompleteItem
-		})
+		autoCompleteCollection = new AutoCompleteCollection()
 		AutoCompleteView = new AutoCompleteView({
 			collection: autoCompleteCollection
 		})
@@ -108,86 +103,48 @@ var init = function() {
 		var DetailsView = Backbone.View.extend({
 			el: '.details-slider',
 			initialize: function() {
-				this.listenTo(this.model, "change", this.render);
-				// this.nodeTemplate = _.template($('#note-template').html());
+
+				this.model.attributes.uber.on('change', this.uberRender, this);
+				this.model.attributes.movie.on('change', this.render, this);
 			},
 			render: function() {
-				// console.log($('#details-slider-template').html())
-				console.log(this.model.attributes)
 				var template = _.template($('#details-slider-template').html());
-				variables = this.model.attributes
-				if (this.model.attributes.formated) {
-                                        this.model.attributes.backdrop_path = moviedb_base + this.model.attributes.backdrop_path
-                                        this.model.attributes.poster_path = moviedb_base + this.model.attributes.poster_path
-                                        this.model.attributes.tagline = '';
-                                        // this.model.attributes.production_companies[{name:'Not Available'}]
 
-					// if (variables.synopsis.length < 2) {
-					// 	variables.synopsis = 'Only available for recent movies'
-					// }
-					// if (this.model.attributes.abridged_cast.length >= 2) {
-					// 	variables.cast_1 = variables.abridged_cast[0].name
-					// 	variables.cast_2 = variables.abridged_cast[1].name
-					// }
-					// a = variables.ratings.audience_score
-					// if (a > 20) {
-					// 	variables.a.one = 'color'
-					// }
-					// if (a > 40) {
-					// 	variables.a.two = 'color'
-					// }
-					// if (a > 60) {
-					// 	variables.a.three = 'color'
-					// }
-					// if (a > 80) {
-					// 	variables.a.four = 'color'
-					// }
-					// if (a > 100) {
-					// 	variables.a.five = 'color'
-					// }
-					// c = variables.ratings.critics_score
-					// if (c > 20) {
-					// 	variables.c.one = 'color'
-					// }
-					// if (c > 40) {
-					// 	variables.c.two = 'color'
-					// }
-					// if (c > 60) {
-					// 	variables.c.three = 'color'
-					// }
-					// if (c > 80) {
-					// 	variables.c.four = 'color'
-					// }
-					// if (c > 100) {
-					// 	variables.c.five = 'color'
-					// }
-				}
-				else {
-					this.model.attributes.formated = true;
-				}
+				variables = this.model.attributes.movie.attributes
+				variables.backdrop_path = moviedb_base + variables.backdrop_path
+				variables.poster_path = moviedb_base + variables.poster_path
+				variables.tagline = '';
+
 				this.$el.html(template(variables))
+
+			},
+			uberRender: function(){
+				var obj = this.model.attributes.uber.attributes
+				$("#uber").html(
+					'<div class="col-md-3 col-sm-3 col-lg-3">'+
+					'<img src="images/uber.jpg" width="50"></div>'+
+					'<div class="col-md-3 col-sm-3 col-lg-3"><span><i class="fa fa-map-marker"></i><br>'+obj.distance+' mil</span></div>'+
+					'<div class="col-md-3 col-sm-3 col-lg-3"><span><i class="fa fa-clock-o"></i><br>'+((obj.duration)/60).toFixed(2)+' min</span></div>'+
+					'<div class="col-md-3 col-sm-3 col-lg-3"><span><i class="fa fa-usd"></i><br>'+obj.estimate+'</span></div>'
+					);
 			}
 		})
+
+		
+
 		var MapView = Backbone.View.extend({
 			initialize: function() {
-				// getCurrentPosition = function() {
-				//                            if (navigator.geolocation) {
-				//                                    navigator.geolocation.getCurrentPosition(this.setGoogleMaps);
-				//                            } else {
-				//                                    alert("Geolocation is not supported by this browser.")
-				//                            }
-				//            }
-				var myLatlng = new google.maps.LatLng(37.789790, -122.444466);
+				var myLatlng = mylocation()
 				var mapOptions = {
 					// styles: [{"featureType":"all","elementType":"all","stylers":[{"invert_lightness":true},{"saturation":10},{"lightness":30},{"gamma":0.5},{"hue":"#435158"}]}],
 					panControlOptions: {
-						position: google.maps.ControlPosition.TOP_RIGHT
+						position: google.maps.ControlPosition.BOTTOM_CENTER
 					},
 					mapTypeControl: false,
 					zoomControl: true,
 					zoomControlOptions: {
 						style: google.maps.ZoomControlStyle.SMALL,
-						position: google.maps.ControlPosition.TOP_RIGHT
+						position: google.maps.ControlPosition.BOTTOM_CENTER
 					},
 					center: myLatlng,
 					// center: {lat:position.coords.latitude, lng: position.coords.longitude},
@@ -195,6 +152,7 @@ var init = function() {
 				}
 				var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 				menuRight = $('#cbp-spmenu-s2')
+
 				this.collection.bind('add', function(model) {
 					map.setZoom(13);
 					service = new google.maps.places.PlacesService(map);
@@ -203,7 +161,7 @@ var init = function() {
 						location: myLatlng,
 						radius: 3000
 					}, function(results, status) {
-						console.log(results)
+						// console.log(results)
 						if (status == google.maps.places.PlacesServiceStatus.OK) {
 							var marker = new google.maps.Marker({
 								position: results[0].geometry.location,
@@ -220,74 +178,71 @@ var init = function() {
 							google.maps.event.addListener(marker, 'click', function() {
 								map.setZoom(16);
 								map.setCenter(marker.getPosition());
-								console.log(model.attributes.release_year)
-								
+								var from = mylocation()
+								var to = marker.getPosition()
+								gapi.client.moviepins.uber.estimate({
+									'end_latitude': to.k,
+									'end_longitude': to.D,
+									'start_latitude':from.k,
+									'start_longitude':from.D
+								}).execute(function(resp) {
+									uber_data.set(JSON.parse(resp.resp))
+								});
 
-        //                                                         gapi.client.moviepins.movies.details({
-								// 	'title': model.attributes.title,
-								// 	'year': model.attributes.release_year
-								// }).execute(function(resp) {
-								// 	console.log(resp)
-								// 	console.log(JSON.parse(resp.resp));
-								// 	movie_details.set(JSON.parse(resp.resp));
-								// 	$(menuRight).addClass('details-slider-open')
-								// });
-                                                                gettheDetails = function(type, id){
-                                                                        $.ajax({
-                                                                        url:moviedb_apibase + '/'+type+'/'+id,
-                                                                        data:
-                                                                                {
-                                                                                        'api_key':moviedb_key,
-                                                                                        'append_to_response':'credits,videos'
-                                                                                }                         
-                                                                        }).done(function(movie_detail){
-                                                                                if (type == 'tv') {
-                                                                                        movie_detail.title = movie_detail.name
-                                                                                        movie_detail.runtime = 'Episode: '+movie_detail.episode_run_time
-                                                                                };
-                                                                                // z.clear().set(movie_detail);
-                                                                                movie_details.set(movie_detail);
-                                                                                $(menuRight).addClass('details-slider-open')
-                                                                        }).fail(function(){
-                                                                                alert("error")
-                                                                        })
-                                                                }
+								gettheDetails = function(type, id) {
+									$.ajax({
+										url: moviedb_apibase + '/' + type + '/' + id,
+										data: {
+											'api_key': moviedb_key,
+											'append_to_response': 'credits,videos'
+										}
+									}).done(function(movie_detail) {
+										if (type == 'tv') {
+											movie_detail.title = movie_detail.name
+											movie_detail.runtime = 'Episode: ' + movie_detail.episode_run_time
+										};
+										// z.clear().set(movie_detail);
+										movie_details.set(movie_detail);
+										$(menuRight).addClass('details-slider-open')
+									}).fail(function() {
+										alert("error")
+									})
+									
+							
 
-                                                                $.ajax({
-                                                                        url: moviedb_apibase + "/search/movie",
-                                                                        data: 
-                                                                        {
-                                                                                'api_key':moviedb_key, 
-                                                                                'query':model.attributes.title,
-                                                                                'year':model.attributes.release_year
-                                                                        }
-                                                                }).done(function(resp) {
-                                                                        if(resp.results.length > 0){
-                                                                                gettheDetails('movie', resp.results[0].id)
-                                                                        }
-                                                                        else{
-                                                                                $.ajax({
-                                                                                        url: moviedb_apibase + "/search/tv",
-                                                                                        data: 
-                                                                                        {
-                                                                                                'api_key':moviedb_key, 
-                                                                                                'query':model.attributes.title,
-                                                                                                'year':model.attributes.release_year
-                                                                                        }
-                                                                                }).done(function(resp) {
-                                                                                        if(resp.results.length > 0){
-                                                                                                // result_id = resp.results[0].id
-                                                                                                // result_type = 'tv'
-                                                                                                gettheDetails('tv', resp.results[0].id)
-                                                                                        }
-                                                                                }).fail(function() {
-                                                                                    alert( "error" );
-                                                                                })
-                                                                        }
-                                                                }).fail(function() {
-                                                                    alert( "error" );
-                                                                })
-                                                                
+					
+
+								}
+								$.ajax({
+									url: moviedb_apibase + "/search/movie",
+									data: {
+										'api_key': moviedb_key,
+										'query': model.attributes.title,
+										'year': model.attributes.release_year
+									}
+								}).done(function(resp) {
+									if (resp.results.length > 0) {
+										gettheDetails('movie', resp.results[0].id)
+									}
+									else {
+										$.ajax({
+											url: moviedb_apibase + "/search/tv",
+											data: {
+												'api_key': moviedb_key,
+												'query': model.attributes.title,
+												'year': model.attributes.release_year
+											}
+										}).done(function(resp) {
+											if (resp.results.length > 0) {
+												gettheDetails('tv', resp.results[0].id)
+											}
+										}).fail(function() {
+											alert("error");
+										})
+									}
+								}).fail(function() {
+									alert("error");
+								})
 							});
 							// var markerCluster = new MarkerClusterer(map, markers);
 						}
@@ -297,6 +252,11 @@ var init = function() {
 					});
 					// })(model);
 				});
+
+				//Add event handlers to dom elemnts
+				$( "#search-container input" ).focus(function() {
+				  menuRight.removeClass('details-slider-open')
+				}); 
 			}
 		}); //end of view
 		var pins = new MoviePinCollection([], {
@@ -305,18 +265,23 @@ var init = function() {
 		var movie_map = new MapView({
 			collection: pins
 		});
+
 		var movie_details = new Movie()
+		var uber_data = new UberData()
+		var detailsScreen = new DetailsScreen({movie: movie_details, uber: uber_data})
+
+
 		var details_view = new DetailsView({
-			model: movie_details
-		}).render();
-		// gapi.client.moviepins.movies.find({
-		// 	'title': 'Foul Play'
-		// }).execute(function(resp) {
-		// 	model_obj = JSON.parse(resp.resp)
-		// 	for (var i = model_obj.length - 1; i >= 0; i--) {
-		// 		pins.add(model_obj[i]);
-		// 	}
-		// });
+				model: detailsScreen
+			})
+			// gapi.client.moviepins.movies.find({
+			// 	'title': 'Foul Play'
+			// }).execute(function(resp) {
+			// 	model_obj = JSON.parse(resp.resp)
+			// 	for (var i = model_obj.length - 1; i >= 0; i--) {
+			// 		pins.add(model_obj[i]);
+			// 	}
+			// });
 	} //end init
 	//utility functions
 var delay = (function() {
@@ -332,3 +297,8 @@ var clearMarkers = function(marker_array) {
 	}
 	return []
 }
+var mylocation = function(){
+	var myLatlng = new google.maps.LatLng(37.789790, -122.444466);
+	return myLatlng
+}
+console.log(mylocation())

@@ -43,7 +43,28 @@ html,body,.container_nob,.content,#map-canvas {
 }
 
 #search-container .input-group,#search-container input {
-	width:100%
+	width:100%;
+	border: none;
+}
+
+#char-rem-cont{
+	background-color: #fff;
+	width: 100%;
+	display: inline-block;
+	/* border-top: #e8e8e8 solid 1px; */
+	padding: 1px 5px 1px 5px;
+	font-size: 12px;
+	font-style: italic;
+	display: none;
+}
+
+#autocomp-loader{
+	display: none;
+}
+
+#autocomp-loader div{
+	display: inline-block;
+	margin-left: 20px;
 }
 
 /*Auto Complete list*/
@@ -204,7 +225,13 @@ li .selected {
 	width:90%;
 	margin:auto
 }
-
+#uber-msg{
+	text-align: center;
+	margin-bottom: 5px;
+}
+#uber i{
+	font-size: 20px;
+}
 .circle {
 	position:relative;
 	top:20px;
@@ -217,3 +244,84 @@ li .selected {
 	background:transparent;
 	z-index:1
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*TYPING LOADER*/
+/*Typing Loader*/
+.typing_loader{
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    -webkit-animation: typing 1s linear infinite alternate;
+       -moz-animation: Typing 1s linear infinite alternate;
+            animation: typing 1s linear infinite alternate;
+    position: relative;
+    left: -12px;
+}
+@-webkit-keyframes typing{
+    0%{
+        background-color: rgba(102,102,102, 1);
+        box-shadow: 12px 0px 0px 0px rgba(102,102,102,0.2), 
+                    24px 0px 0px 0px rgba(102,102,102,0.2);
+      }
+    25%{ 
+        background-color: rgba(102,102,102, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(102,102,102,2), 
+                    24px 0px 0px 0px rgba(102,102,102,0.2);
+    }
+    75%{ background-color: rgba(102,102,102, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(102,102,102,0.2), 
+                    24px 0px 0px 0px rgba(102,102,102,1);
+      }
+}
+
+@-moz-keyframes typing{
+   0%{
+        background-color: rgba(255,255,255, 1);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.2), 
+                    24px 0px 0px 0px rgba(255,255,255,0.2);
+      }
+    25%{ 
+        background-color: rgba(255,255,255, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,2), 
+                    24px 0px 0px 0px rgba(255,255,255,0.2);
+    }
+    75%{ background-color: rgba(255,255,255, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.2), 
+                    24px 0px 0px 0px rgba(255,255,255,1);
+      }
+}
+
+@keyframes typing{
+   0%{
+        background-color: rgba(255,255,255, 1);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.2), 
+                    24px 0px 0px 0px rgba(255,255,255,0.2);
+      }
+    25%{ 
+        background-color: rgba(255,255,255, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,2), 
+                    24px 0px 0px 0px rgba(255,255,255,0.2);
+    }
+    75%{ background-color: rgba(255,255,255, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.2), 
+                    24px 0px 0px 0px rgba(255,255,255,1);
+      }
+}
+
