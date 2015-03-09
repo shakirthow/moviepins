@@ -29,6 +29,8 @@ var init = function() {
         var AutoCompleteView = Backbone.View.extend({
                 el: '.autocompletelist',
                 initialize: function() {
+                        //initialize the ui for autocomplete,
+                        //shows the 'searching' or 'more char required' messages
                         this.render();
                         this.collection.on('add', this.render, this);
                         this.collection.on('reset', this.render, this);
@@ -111,6 +113,7 @@ var init = function() {
                         });
                 }
         });
+        //This is the movie details view. 
         var DetailsView = Backbone.View.extend({
                 el: '.details-slider',
                 initialize: function() {
@@ -143,6 +146,7 @@ var init = function() {
                                 '<div class="col-md-3 col-xs-3 col-sm-3 col-lg-3"><span><i class="fa fa-usd"></i><br>' + obj.estimate + '</span></div>');
                 }
         });
+        //The main view that initiates the map
         var MainView = Backbone.View.extend({
                 initialize: function() {
                         var zoom = 13;
@@ -211,7 +215,7 @@ var isMobile = function() {
                 return true;
         }
 };
-
+//MyLocation obj and its functions fetches locations and place a pin on current location 
 function MyLocation(){
         if (arguments.callee.instance) return arguments.callee.instance;
         arguments.callee.instance = this;
@@ -265,6 +269,7 @@ MyLocation.prototype = {
         // }
 }
 
+//handles all the functinos and event handlers required for the natural language form 
 function BrowseMovies(manager) {
         this.typeSel = $('#browse-type');
         this.valSel = $('#browse-val');
@@ -335,6 +340,7 @@ BrowseMovies.prototype = {
         }
 };
 
+//manage markes on the map!
 function MarkerManager(movieModel, uberModel) {
         if (arguments.callee.instance) return arguments.callee.instance;
         arguments.callee.instance = this;
@@ -445,7 +451,6 @@ MarkerManager.prototype = {
                                                 }
                                                 self.movieModel.set(movie_detail);
                                                 $(menuRight).addClass('details-slider-open');
-                                                //console.log(movie_detail);
                                                 $('.trailerLink').on('show.bs.modal', function(e) {
                                                         if (movie_detail.videos.results.length > 0) {
                                                                 $('.trailerLink .modal-content').html(
@@ -458,7 +463,7 @@ MarkerManager.prototype = {
                                                         $('.trailerLink .modal-content').html('');
                                                 });
                                         }).fail(function() {
-                                                alert("error");
+                                                alert("There was an error while trying to fetch movie details");
                                         });
                                 };
                                 $.ajax({
@@ -494,7 +499,7 @@ MarkerManager.prototype = {
                                                 self.addInfoWindow(marker);
                                         }
                                 }).fail(function(e) {
-                                        alert("error");
+                                        alert("There was an error while trying to fetch movie details");
                                 });
                         });
                 } //End marker event 
