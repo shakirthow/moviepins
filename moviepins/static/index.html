@@ -84,6 +84,7 @@
 	<script id="details-slider-template" type="text/template">
 
 					<img src='<%= backdrop_path %>' width="100%">
+					<button type="button" class="btn btn-danger btn-sm closeButton" onclick="$(this).parent().removeClass('details-slider-open')"><i class="fa fa-times"></i></button>
 					<div class="row" id="titleInfo">
 							<h5 class="title"> <strong><%= title %></strong> -<small><%= tagline %></small> <span><%= runtime %> min</span></h5>
 							

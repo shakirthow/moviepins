@@ -402,7 +402,7 @@ MarkerManager.prototype = {
                 }).execute(function(resp) {
                         // console.log(resp)
                         if(resp.code == 404){
-                                $('#uber').html('There was an error while trying to calculate the cost and distance.')
+                                $('#uber').html('Looks like you are too far away to calculate the price and distance')
                         }
                         else{
                             self.uberModel.set(JSON.parse(resp.resp));    
@@ -425,7 +425,12 @@ MarkerManager.prototype = {
                         google.maps.event.addListener(marker, 'click', function() {
                                 self.map.setZoom(16);
                                 self.map.setCenter(marker.getPosition());
-                                self.uberEstimates(currentLocation, marker.getPosition());
+                                if(currentLocation != null){
+                                	self.uberEstimates(currentLocation, marker.getPosition());
+                                }
+                                else{
+                                	$('#uber').html('The browser was not able to locate you!')
+                                }
                                 gettheDetails = function(type, id) {
                                         $.ajax({
                                                 url: moviedb_apibase + '/' + type + '/' + id,
