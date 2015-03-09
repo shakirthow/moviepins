@@ -1,5 +1,4 @@
 from common import *
-import pprint
 
 
 class GeoPoints (messages.Message):
@@ -29,16 +28,9 @@ class Uber(remote.Service):
 		content_obj = json.loads(content)
 
 		if resp.status == 200:
-			# cheapest = min(content_obj[u'prices'],key=lambda x: if x[u'low_estimate']: x[u'low_estimate'] )
-
 			cheapest = min((x for x in content_obj[u'prices'] if x[u'low_estimate'] != None), key=lambda y: y['low_estimate'])
-			pprint.pprint(cheapest)
-			# pprint.pprint(content_obj[u'prices'])
-
-
-
 			return  Response(resp = json.dumps(cheapest).decode(encoding='utf-8',errors='ignore'))
 		else:
-			pprint.pprint(content_obj)
-			return  Response(resp ='bad ' +str(resp.status))
+			message = 'Uber estimates were not found'
+			raise endpoints.NotFoundException(message)
 

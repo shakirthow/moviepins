@@ -4,7 +4,6 @@ from protorpc import message_types
 from protorpc import remote
 import httplib2
 import hashlib
-from models import *
 import json
 import urllib
 # cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile(inspect.currentframe() ))[0],"apiClass")))

@@ -11,8 +11,8 @@ if cmd_subfolder not in sys.path:
 
 from common import *
 from movie import *
-from user import *
-from circle import *
+# from user import *
+# from circle import *
 from uber import *
 
 APPLICATION = endpoints.api_server([moviepins])
